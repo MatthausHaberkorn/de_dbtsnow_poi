@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: POIFRANCE
+    schema: RAW
+    tables:
+      - name: poi
+        identifier: RAW_POI
