@@ -2,7 +2,7 @@
 
 ### create dbt user in snowflake
 
-- used worksheet ins snowflake for executing the queries
+- used worksheet in snowflake for executing the queries
 
 ```sql
 -- Use an admin role
@@ -68,6 +68,20 @@ Put file:///<path>*json @my_json_stage
     AUTO_COMPRESS=TRUE;
 ```
 
+- create table with one column v containing the json
+
+```sql
+create or replace table raw_poi (v variant);
+```
+
+- copy the files into the table
+
+```sql
+COPY INTO RAW_POI
+FROM @my_json_stage
+ON_ERROR='skip_file';
+```
+
 ### parquet stage
 
 #### json stage
@@ -91,4 +105,24 @@ CREATE OR REPLACE STAGE my_parquet_stage
 
 ```sql
 Put file:///<path>*parquet @my_parquet_stage;
+```
+
+- create table
+
+```sql
+create or replace table raw_osm (
+    osm_id int ,
+    x double ,
+    y double
+  );
+```
+
+- copy the files into the table
+
+```sql
+copy into raw_osm
+ from (select $1:osmid::int,
+              $1:x::double,
+              $1:y::double
+      from @my_parquet_stage)
 ```
