@@ -18,8 +18,8 @@ GRANT OPERATE ON WAREHOUSE COMPUTE_WH TO ROLE elt;
 
 -- Create the `dbt` user and assign to role
 CREATE USER IF NOT EXISTS dbt
-  PASSWORD='pwd'
-  LOGIN_NAME='user'
+  PASSWORD='<pwd>'
+  LOGIN_NAME='<user>'
   MUST_CHANGE_PASSWORD=FALSE
   DEFAULT_WAREHOUSE='COMPUTE_WH'
   DEFAULT_ROLE='elt'
@@ -127,35 +127,39 @@ copy into raw_osm
       from @my_parquet_stage)
 ```
 
+## Project structure
+
+- following flowchart shows the plans for the project
+
 ```mermaid
 flowchart TB
     subgraph  id10 [Ingestion]
-    id1>datatourisme.fr]-- Extract: Download from Website AS ZipStream --> id2{{Data Loader\nPOI'S AS JSON \n Map AS CSV}}
-    id3>OpenstreetMaps]-- Extract: Download -->id2
+    id1>datatourisme.fr]-- Extract\nDownload from Website AS ZipStream --> id2{{Data Loader\nPOI'S AS JSON \n Map AS CSV}}
+    id3>OpenstreetMaps]-- Extract\n Download via osmnx -->id2
     end
-    subgraph id11 [ELT_DISTRIBUTED managed by Spark]
-    id4(Objectstore: Minio)-->
-    id5{{Spark \n Transform POI Data}}
+
+    subgraph id14 [ELT: Warehouse - Snowflake]
+    id21(Snowflake Stages\n POI: MY_JSON_STAGE\n OSM: MY_PARQUET_STAGE)-->
+
+    id22{{DBT Extractions \n POI: extract data from json }}-->
+    id23(DBT Transformations\n Enrichment of POI data with nearest OSM junction)
     end
-    subgraph id14 [ELT_LOCAL managed by DBT]
-    id21(Local Store Bronze)-->
-    id22{{DUCKDB \n Transform POI Data}}-->
-    id23(Local Store Gold\nPOI data with nearest osmnx point)
-    end
-    id2 -- Ingest Data to Bronze Layer --> id11
-    id2 -- Manual Ingest Data to Bronze Layer --> id14
-    subgraph id12 [Modeling]
+
+    id2 -- Manual Ingest into Snowflake Staging\n via SnowSQL --> id14
+    subgraph id12 [Backend]
     id6(GraphDB: Neo4j) --> id7[API FastAPI]
     id8(SearchDB: ElasticSearch) --> id7
     end
-    id11 -- Transform POI Location Data --> id6
-    id11 -- Transform POI Search Data --> id8
-    id14 -- Transform POI Location Data --> id6
-    id14 -- Transform POI Search Data --> id8
+
+    id14 -- Load POI Location Data\n Via Python Connector --> id6
+    id14 -- Load POI Text search Data\n Via Python Connector  --> id8
     id6 -- Modeling --> id6
     id8 -- Modeling --> id8
     subgraph id13 [Serving]
     id9>FrontEnd: Dash / Leaflet]
     end
-    id7 --> id9
+    id12 --> id13
+
+classDef myClass fill:#f96,stroke:#f66,stroke-width:2px;
+    class id1,id2,id3,id21,id22,id23,id6,id7 myClass;
 ```
