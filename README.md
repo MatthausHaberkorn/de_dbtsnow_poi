@@ -113,7 +113,8 @@ Put file:///<path>*parquet @my_parquet_stage;
 create or replace table raw_osm (
     osm_id int ,
     x double ,
-    y double
+    y double,
+    department string
   );
 ```
 
@@ -123,8 +124,9 @@ create or replace table raw_osm (
 copy into raw_osm
  from (select $1:osmid::int,
               $1:x::double,
-              $1:y::double
-      from @my_parquet_stage)
+              $1:y::double,
+              $1:location_department::string
+      from @my_parquet_stage);
 ```
 
 ## Project structure

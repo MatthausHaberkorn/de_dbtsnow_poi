@@ -1,3 +1,4 @@
+{{ config(materialized='table') }}
 with
     json as (
         select
@@ -47,3 +48,8 @@ select
     f.features as poi_features
 from json j
 left join features f on j.id = f.id
+where
+    j.latitude is not null
+    and j.longitude is not null
+    and j.latitude between 41 and 51
+    and j.longitude between -5 and 10
