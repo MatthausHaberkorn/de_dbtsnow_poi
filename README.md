@@ -160,6 +160,6 @@ flowchart TB
     end
     id12 --> id13
 
-classDef myClass fill:#9fa8da,stroke:#fff,stroke-width:2px;
+classDef myClass stroke:#ffa500,stroke-width:2px;
 class id1,id2,id3,id21,id22,id23,id6,id7 myClass;
 ```
