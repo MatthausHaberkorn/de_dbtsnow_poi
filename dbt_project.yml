@@ -31,3 +31,4 @@ clean-targets: # directories to be removed by `dbt clean`
 models:
   pois_france:
     +materialized: table
+    +dbt-osmosis: "_{model}.yml"

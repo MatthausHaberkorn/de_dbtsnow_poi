@@ -6,5 +6,22 @@ sources:
     tables:
       - name: poi
         identifier: RAW_POI
+        columns:
+          - name: V
+            description: "This column contains the complete POI json object from the source datagouv.fr"
+            data_type: VARIANT
       - name: osm
         identifier: RAW_OSM
+        columns:
+          - name: OSM_ID
+            description: "Identifier of the elemt in OSM which is in fact a junction"
+            data_type: NUMBER
+          - name: X
+            description: "Longitude of the junction"
+            data_type: FLOAT
+          - name: Y
+            description: "Latitude of the junction"
+            data_type: FLOAT
+          - name: DEPARTMENT
+            description: "French department name"
+            data_type: VARCHAR
