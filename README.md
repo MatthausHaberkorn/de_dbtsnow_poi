@@ -136,21 +136,21 @@ copy into raw_osm
 ```mermaid
 flowchart TB
     subgraph  id10 [Ingestion]
-    id1>datatourisme.fr]-- Extract\nDownload from Website AS ZipStream --> id2{{Data Loader\nPOI'S AS JSON \n Map AS CSV}}
-    id3>OpenstreetMaps]-- Extract\n Download via osmnx -->id2
+        id1>datatourisme.fr]-- Extract\nDownload from Website AS ZipStream --> id2{{Data Loader\nPOI'S AS JSON \n Map AS CSV}}
+        id3>OpenstreetMaps]-- Extract\n Download via osmnx -->id2
     end
 
     subgraph id14 [ELT: Warehouse - Snowflake]
-    id21(Snowflake Stages\n POI: MY_JSON_STAGE\n OSM: MY_PARQUET_STAGE)-->
-
-    id22{{DBT Extractions \n POI: extract data from json }}-->
-    id23(DBT Transformations\n Enrichment of POI data with nearest OSM junction)
+        id21(File store - Snowflake Stages\n POI: MY_JSON_STAGE\n OSM: MY_PARQUET_STAGE)--Copy Table\nExecution Snowflake-->
+        id31(Snowflake Raw Tables as DBT sources\n POI: RAW_POI\n OSM: RAW_OSM)--Pipeline run: DBT\n Execution: Snowflake  -->
+        id22{{DBT Extractions \n POI: extract and validate data from json }}--Pipeline run: DBT\n Execution: Snowflake  -->
+        id23{{DBT Transformations\n Enrichment of POI data with nearest OSM junction}}
     end
 
     id2 -- Manual Ingest into Snowflake Staging\n via SnowSQL --> id14
     subgraph id12 [Backend]
-    id6(GraphDB: Neo4j) --> id7[API FastAPI]
-    id8(SearchDB: ElasticSearch) --> id7
+        id6(GraphDB: Neo4j) --> id7[API FastAPI]
+        id8(SearchDB: ElasticSearch) --> id7
     end
 
     id14 -- Load POI Location Data\n Via Python Connector --> id6
@@ -158,10 +158,10 @@ flowchart TB
     id6 -- Modeling --> id6
     id8 -- Modeling --> id8
     subgraph id13 [Serving]
-    id9>FrontEnd: Dash / Leaflet]
+        id9>FrontEnd: Dash / Leaflet]
     end
     id12 --> id13
 
 classDef myClass stroke:#ffa500,stroke-width:2px;
-class id1,id2,id3,id21,id22,id23,id6,id7 myClass;
+class id1,id2,id3,id21,id22,id23,id6,id7,id31 myClass;
 ```
