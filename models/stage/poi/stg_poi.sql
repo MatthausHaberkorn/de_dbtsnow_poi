@@ -1,12 +1,11 @@
 with
     json as (
-
         select
             v:"@type" as types,
             v:"dc:identifier"::string as id,
             v:"rdfs:label".en[0]::string as label_en,
             v:"rdfs:label".fr[0]::string as label_fr,
-            v:"hasDescription"[0].shortdescription.en[0]::string as shortdescription,
+            v:"hasDescription"[0]."shortDescription".en[0]::string as shortdescription,
             v:"hasDescription"[0]."dc:description".en[0]::string as description,
             v:"rdfs:comment".en[0]::string as comment,
             v:"isLocatedAt"[0]."schema:address"[0]."schema:addressLocality"::string
@@ -17,31 +16,34 @@ with
             as address,
             v:"isLocatedAt"[0]."schema:address"[
                 0
-            ].hasaddresscity.ispartofdepartment."rdfs:label".en[0]::string
+            ]."hasAddressCity"."isPartOfDepartment"."rdfs:label".en[0]::string
             as department,
-            v:"isLocatedAt"[0]."schema:geo"."schema:latitude"::float latitude,
-            v:"isLocatedAt"[0]."schema:geo"."schema:longitude"::float longitude,
-            v:"hasReview"[0].hasreviewvalue."schema:ratingValue" as rating,
-            v:"hasFeature"[0].features[0]."rdfs:label".en[0] as feature_1,
-            v:"hasFeature"[0].features[1]."rdfs:label".en[0] as feature_2,
-            v:"hasFeature"[0].features[2]."rdfs:label".en[0] as feature_3,
-            v:"hasFeature"[0].features[3]."rdfs:label".en[0] as feature_4
-
+            v:"isLocatedAt"[0]."schema:geo"."schema:latitude"::float as latitude,
+            v:"isLocatedAt"[0]."schema:geo"."schema:longitude"::float as longitude,
+            v:"hasReview"[0]."hasReviewValue"."schema:ratingValue"::float as rating
         from {{ source('POIFRANCE', 'poi') }}
-
+    ),
+    features as (
+        select
+            v:"dc:identifier"::string as id,
+            array_to_string(array_agg(f.value:"rdfs:label".en[0]), ',') as features
+        from
+            {{ source('POIFRANCE', 'poi') }},
+            lateral flatten(input => v:"hasFeature"[0].features) f
+        group by 1
     )
 select
-    array_to_string(types, ', ') as poi_types,
-    id as poi_id,
-    coalesce(label_en, label_fr) as poi_label,
-    coalesce(description, shortdescription, comment) as poi_description,
-    locality as poi_location_name,
-    postal_code as poi_location_postal_code,
-    address as poi_location_address,
-    department as poi_department,
-    latitude as poi_lat,
-    longitude as poi_long,
-    rating as poi_rating,
-    concat_ws(', ', feature_1, feature_2, feature_3, feature_4) as poi_features
-
-from json
+    array_to_string(j.types, ', ') as poi_types,
+    j.id as poi_id,
+    coalesce(j.label_en, j.label_fr) as poi_label,
+    coalesce(j.description, j.shortdescription, j.comment) as poi_description,
+    j.locality as poi_location_name,
+    j.postal_code as poi_location_postal_code,
+    j.address as poi_location_address,
+    j.department as poi_department,
+    j.latitude as poi_lat,
+    j.longitude as poi_long,
+    j.rating as poi_rating,
+    f.features as poi_features
+from json j
+left join features f on j.id = f.id
