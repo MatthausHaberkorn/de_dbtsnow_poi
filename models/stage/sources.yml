@@ -6,3 +6,5 @@ sources:
     tables:
       - name: poi
         identifier: RAW_POI
+      - name: osm
+        identifier: RAW_OSM

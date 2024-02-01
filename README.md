@@ -113,7 +113,8 @@ Put file:///<path>*parquet @my_parquet_stage;
 create or replace table raw_osm (
     osm_id int ,
     x double ,
-    y double
+    y double,
+    department string
   );
 ```
 
