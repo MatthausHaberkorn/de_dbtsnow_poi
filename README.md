@@ -124,8 +124,9 @@ create or replace table raw_osm (
 copy into raw_osm
  from (select $1:osmid::int,
               $1:x::double,
-              $1:y::double
-      from @my_parquet_stage)
+              $1:y::double,
+              $1:location_department::string
+      from @my_parquet_stage);
 ```
 
 ## Project structure
