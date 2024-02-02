@@ -129,14 +129,14 @@ copy into raw_osm
       from @my_parquet_stage);
 ```
 
-## Project structure
+## Project data flow
 
-- following flowchart shows the plans for the project
+- following flowchart shows the plans for the data flow / lineage
 
 ```mermaid
 flowchart TB
     subgraph  id10 [Ingestion]
-        id1>datatourisme.fr]-- Extract\nDownload from Website AS ZipStream --> id2{{Data Loader\nPOI'S AS JSON \n Map AS CSV}}
+        id1>datatourisme.fr]-- Extract\nDownload from Website --> id2{{Data Loader\nPOI'S AS JSON \n Map AS CSV}}
         id3>OpenstreetMaps]-- Extract\n Download via osmnx -->id2
     end
 
