@@ -1,0 +1,4 @@
+version: 2
+models:
+  - name: mrt_bridge_poi_types
+    columns: []

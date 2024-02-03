@@ -9,6 +9,12 @@ with
         from {{ ref("stg_poi") }}
         qualify row_num = 1
     )
-select * exclude row_num, row_number() over (order by poi_id) as poi_key
+select
+    {{ dbt_utils.generate_surrogate_key([
+                'poi_label', 
+                'poi_lat',
+                'poi_long'
+            ])
+        }} as poi_key, * exclude row_num
 
 from duplicates_removed
