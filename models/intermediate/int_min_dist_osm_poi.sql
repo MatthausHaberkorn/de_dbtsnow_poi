@@ -22,5 +22,5 @@ with
         qualify rank = 1
     )
 
-select osm_id, poi_id, distance
+select osm_id, poi_key, distance
 from ranked_distance
