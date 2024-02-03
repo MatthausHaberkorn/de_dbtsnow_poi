@@ -35,7 +35,7 @@ with
         group by 1
     )
 select
-    j.types as poi_types,
+    to_array(j.types) as poi_types,
     j.id as poi_id,
     coalesce(j.label_en, j.label_fr) as poi_label,
     coalesce(j.description, j.shortdescription, j.comment) as poi_description,
@@ -50,8 +50,3 @@ select
     j.last_update as poi_last_update
 from json j
 left join features f on j.id = f.id
-where
-    j.latitude is not null
-    and j.longitude is not null
-    and j.latitude between 41 and 51
-    and j.longitude between -5 and 10

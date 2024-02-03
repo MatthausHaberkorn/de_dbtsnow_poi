@@ -1,4 +1,11 @@
 version: 2
 models:
   - name: mrt_bridge_poi_types
-    columns: []
+    description: "This is a bridge or junction table modeling the many-to-many relationship between poi's and their types."
+    columns:
+      - name: POI_KEY
+        description: Surrogate key of the POI for the data warehouse
+        data_type: VARCHAR
+      - name: POI_TYPE_KEY
+        description: "Surrogate key for the POI_Type table to uniquely identify the feature in the warehouse"
+        data_type: VARCHAR
