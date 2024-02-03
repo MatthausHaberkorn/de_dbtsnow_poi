@@ -9,14 +9,14 @@ with
             and poi_lat between 41 and 51
             and poi_long between -5 and 10
     ),
-    duplicates_removed as (
-        select
-            *,
+    dedup(
+        select *
+        from valid_lat_long
+        qualify
             row_number() over (
                 partition by poi_id, poi_lat, poi_long order by poi_last_update asc
-            ) as row_num
-        from valid_lat_long
-        qualify row_num = 1
+            )
+            = 1
     )
 select
     {{ dbt_utils.generate_surrogate_key([
@@ -24,6 +24,6 @@ select
                 'poi_lat',
                 'poi_long'
             ])
-        }} as poi_key, * exclude row_num
+        }} as poi_key, *
 
-from duplicates_removed
+from dedup

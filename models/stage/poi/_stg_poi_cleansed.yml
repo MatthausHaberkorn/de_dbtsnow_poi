@@ -1,6 +1,7 @@
 version: 2
 models:
   - name: stg_poi_cleansed
+    description: "We make two cleansing steps here: 1. we remove all lat/longs which are not in france in europe. 2. We deduplicate based on poi_id and lat long with keeping the lates entry"
     columns:
       - name: POI_KEY
         description: "Surrogate key of the POI for the data warehouse"
