@@ -1,0 +1,10 @@
+version: 2
+models:
+  - name: mrt_poi_types
+    columns:
+      - name: POI_TYPE_KEY
+        description: "Surrogate key for the POI_Type table to uniquely identify the feature in the warehouse"
+        data_type: VARCHAR
+      - name: POI_TYPE
+        description: "Name of the type of the POI. It's kind of a category for the POI."
+        data_type: VARCHAR

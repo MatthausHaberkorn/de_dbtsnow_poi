@@ -1,4 +1,4 @@
-{{ config(materialized='table') }}
+{{ config(materialized='ephemeral') }}
 with
     json as (
         select
@@ -21,20 +21,21 @@ with
             as department,
             v:"isLocatedAt"[0]."schema:geo"."schema:latitude"::float as latitude,
             v:"isLocatedAt"[0]."schema:geo"."schema:longitude"::float as longitude,
-            v:"hasReview"[0]."hasReviewValue"."schema:ratingValue"::float as rating
+            v:"hasReview"[0]."hasReviewValue"."schema:ratingValue"::float as rating,
+            v:"lastUpdateDatatourisme"::timestamp_tz as last_update
         from {{ source('POIFRANCE', 'poi') }}
     ),
     features as (
         select
             v:"dc:identifier"::string as id,
-            array_to_string(array_agg(f.value:"rdfs:label".en[0]), ',') as features
+            array_agg(f.value:"rdfs:label".en[0]) as features
         from
             {{ source('POIFRANCE', 'poi') }},
             lateral flatten(input => v:"hasFeature"[0].features) f
         group by 1
     )
 select
-    array_to_string(j.types, ', ') as poi_types,
+    to_array(j.types) as poi_types,
     j.id as poi_id,
     coalesce(j.label_en, j.label_fr) as poi_label,
     coalesce(j.description, j.shortdescription, j.comment) as poi_description,
@@ -45,11 +46,7 @@ select
     j.latitude as poi_lat,
     j.longitude as poi_long,
     j.rating as poi_rating,
-    f.features as poi_features
+    f.features as poi_features,
+    j.last_update as poi_last_update
 from json j
 left join features f on j.id = f.id
-where
-    j.latitude is not null
-    and j.longitude is not null
-    and j.latitude between 41 and 51
-    and j.longitude between -5 and 10

@@ -5,8 +5,8 @@ models:
       - name: OSM_ID
         description: "Identifier of the OSM element which is in fact a junction"
         data_type: NUMBER
-      - name: POI_ID
-        description: "Identifier of the POI"
+      - name: POI_KEY
+        description: Surrogate key of the POI for the data warehouse
         data_type: VARCHAR
       - name: DISTANCE
         description: "Calculated distance between the OSM element and the POI"

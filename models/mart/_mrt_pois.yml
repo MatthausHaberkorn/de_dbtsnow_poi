@@ -1,0 +1,46 @@
+version: 2
+models:
+  - name: mrt_pois
+    columns:
+      - name: POI_KEY
+        description: 'Surrogate key of the POI for the data warehouse'
+        data_type: VARCHAR
+      - name: POI_ID
+        description: 'Identifier of the POI'
+        data_type: VARCHAR
+      - name: POI_LABEL
+        description: 'Name of the POI'
+        data_type: VARCHAR
+      - name: POI_DESCRIPTION
+        description: 'Text which decribes the POI'
+        data_type: VARCHAR
+      - name: POI_LOCATION_NAME
+        description: 'Name of the location of the POI'
+        data_type: VARCHAR
+      - name: POI_LOCATION_POSTAL_CODE
+        description: 'Postal code of the location of the POI'
+        data_type: VARCHAR
+      - name: POI_LOCATION_ADDRESS
+        description: 'Street address including street name and house number of the location of the POI'
+        data_type: VARCHAR
+      - name: POI_DEPARTMENT
+        description: 'French department of the location of the POI'
+        data_type: VARCHAR
+      - name: POI_LAT
+        description: 'Latitude of the POI in decimal degrees'
+        data_type: FLOAT
+      - name: POI_LONG
+        description: 'Longitude of the POI in decimal degrees'
+        data_type: FLOAT
+      - name: POI_RATING
+        description: 'User sentiment in 5 star scale of the POI as float number'
+        data_type: FLOAT
+      - name: POI_LAST_UPDATE
+        description: 'Timestamp of the last update of the POI on datagouv.fr'
+        data_type: TIMESTAMP_TZ
+      - name: OSM_ID
+        description: 'Identifier of the OSM element which is in fact a junction'
+        data_type: NUMBER
+      - name: DISTANCE
+        description: 'Calculated distance between the OSM element and the POI'
+        data_type: FLOAT

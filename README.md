@@ -141,6 +141,7 @@ flowchart TB
     end
 
     subgraph id14 [ELT: Warehouse - Snowflake]
+    direction TB
         id21(File store - Snowflake Stages\n POI: MY_JSON_STAGE\n OSM: MY_PARQUET_STAGE)--Copy Table\nExecution Snowflake-->
         id31(Snowflake Raw Tables as DBT sources\n POI: RAW_POI\n OSM: RAW_OSM)--Pipeline run: DBT\n Execution: Snowflake  -->
         id22{{DBT Extractions \n POI: extract and validate data from json }}--Pipeline run: DBT\n Execution: Snowflake  -->

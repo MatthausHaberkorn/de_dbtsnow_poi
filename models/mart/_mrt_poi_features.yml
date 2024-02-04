@@ -1,0 +1,10 @@
+version: 2
+models:
+  - name: mrt_poi_features
+    columns:
+      - name: POI_FEATURE_KEY
+        description: "Surrogate key for the POI_FEATURE table to uniquely identify the feature in the warehouse."
+        data_type: VARCHAR
+      - name: POI_FEATURE
+        description: "Name of the feature of the POI. It's kind of capability or service provided by the POI."
+        data_type: VARCHAR
