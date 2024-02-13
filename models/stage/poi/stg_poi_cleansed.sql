@@ -18,12 +18,5 @@ with
             )
             = 1
     )
-select
-    {{ dbt_utils.generate_surrogate_key([
-                'poi_label', 
-                'poi_lat',
-                'poi_long'
-            ])
-        }} as poi_key, *
-
+select *
 from dedup

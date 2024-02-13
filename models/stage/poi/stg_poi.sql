@@ -22,7 +22,8 @@ with
             is_located_at[0]."schema:geo"."schema:latitude"::float as latitude,
             is_located_at[0]."schema:geo"."schema:longitude"::float as longitude,
             has_review[0]."hasReviewValue"."schema:ratingValue"::float as rating,
-            last_update_datatourisme::timestamp_tz as last_update
+            last_update_datatourisme::timestamp_tz as last_update,
+            _dlt_id as poi_key
         from {{ source('RAW_POI_DATA', 'poi_resource') }}
     ),
     features as (
@@ -47,6 +48,7 @@ select
     j.longitude as poi_long,
     j.rating as poi_rating,
     f.features as poi_features,
-    j.last_update as poi_last_update
+    j.last_update as poi_last_update,
+    poi_key
 from json j
 left join features f on j.id = f.id
