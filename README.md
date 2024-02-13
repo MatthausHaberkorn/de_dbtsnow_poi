@@ -135,20 +135,28 @@ copy into raw_osm
 
 ```mermaid
 flowchart TB
-    subgraph  id10 [Ingestion]
-        id1>datatourisme.fr]-- Extract\nDownload from Website --> id2{{Data Loader\nPOI'S AS JSON \n Map AS CSV}}
-        id3>OpenstreetMaps]-- Extract\n Download via osmnx -->id2
+    id1>datatourisme.fr]
+    id3>OpenstreetMaps]
+    subgraph  id10 [Manual Ingestion]
+        id2{{Data Loader\nOSM Data AS Parquet}}
     end
 
+    id3-- Extract\n Download via osmnx -->id10
+
+    subgraph id40 [Automated Ingestion]
+        id41{{DLT\nPOI'S AS JSON}}
+    end
+    id41-- Load via Snowflake Connector-->id31
+    id1 -- Extract as ZIP stream\nfrom API -->id40
     subgraph id14 [ELT: Warehouse - Snowflake]
     direction TB
-        id21(File store - Snowflake Stages\n POI: MY_JSON_STAGE\n OSM: MY_PARQUET_STAGE)--Copy Table\nExecution Snowflake-->
-        id31(Snowflake Raw Tables as DBT sources\n POI: RAW_POI\n OSM: RAW_OSM)--Pipeline run: DBT\n Execution: Snowflake  -->
+        id21(File store - Snowflake Stages\nOSM: MY_PARQUET_STAGE)--Copy Table\nExecution Snowflake-->
+        id31(Snowflake Raw Tables as DBT sources\n POI: POI_RESOURCES\n OSM: RAW_OSM)--Pipeline run: DBT\n Execution: Snowflake  -->
         id22{{DBT Extractions \n POI: extract and validate data from json }}--Pipeline run: DBT\n Execution: Snowflake  -->
         id23{{DBT Transformations\n Enrichment of POI data with nearest OSM junction}}
     end
 
-    id2 -- Manual Ingest into Snowflake Staging\n via SnowSQL --> id14
+    id2 -- Manual Ingest into Snowflake Staging\n via SnowSQL --> id21
     subgraph id12 [Backend]
         id6(GraphDB: Neo4j) --> id7[API FastAPI]
         id8(SearchDB: ElasticSearch) --> id7

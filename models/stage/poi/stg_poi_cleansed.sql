@@ -9,7 +9,7 @@ with
             and poi_lat between 41 and 51
             and poi_long between -5 and 10
     ),
-    dedup(
+    dedup as (
         select *
         from valid_lat_long
         qualify
@@ -18,12 +18,5 @@ with
             )
             = 1
     )
-select
-    {{ dbt_utils.generate_surrogate_key([
-                'poi_label', 
-                'poi_lat',
-                'poi_long'
-            ])
-        }} as poi_key, *
-
+select *
 from dedup
