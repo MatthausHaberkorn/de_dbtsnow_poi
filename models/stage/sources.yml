@@ -2,6 +2,7 @@ version: 2
 
 sources:
   - name: POIFRANCE
+    database: POIFRANCE
     schema: RAW
     tables:
       - name: poi
@@ -31,3 +32,9 @@ sources:
           - name: V
             description: "This column contains the ontology.json object from the source datagouv.fr"
             data_type: VARIANT
+  - name: RAW_POI_DATA
+    database: POIFRANCE
+    schema: RAW_POIS_DATA
+    tables:
+      - name: poi_resource
+        identifier: POIS_RESOURCE
