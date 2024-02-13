@@ -166,3 +166,16 @@ flowchart TB
 classDef myClass stroke:#ffa500,stroke-width:2px;
 class id1,id2,id3,id21,id22,id23,id6,id7,id31 myClass;
 ```
+
+### POI Ontology
+
+```mermaid
+flowchart LR
+    id1{{POI\n -Label-\n -Description-}} -- CLOSE_TO --> id2{{OSM Junction\n -osm_id-}}
+    id1 -- is_located_in --> id3{{Department\n-Name-}}
+    id1 -- has_address\n street_num --> id4{{Location\n-City-}}
+    id1 -- has_rating --> id5{{5 Star}}
+    id1 -- offers --> id6{{Features}}
+    id1 -- is_a --> id7{{Type}}
+
+```
