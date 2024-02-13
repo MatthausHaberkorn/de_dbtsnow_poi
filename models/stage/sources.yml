@@ -25,3 +25,9 @@ sources:
           - name: DEPARTMENT
             description: "French department name"
             data_type: VARCHAR
+      - name: ontology
+        identifier: RAW_ONTOLOGY
+        columns:
+          - name: V
+            description: "This column contains the ontology.json object from the source datagouv.fr"
+            data_type: VARIANT
