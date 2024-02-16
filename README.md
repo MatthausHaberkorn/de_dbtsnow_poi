@@ -149,41 +149,53 @@ flowchart TB
     id41-- Load via Snowflake Connector-->id31
     id1 -- Extract as ZIP stream\nfrom API -->id40
     subgraph id14 [ELT: Warehouse - Snowflake]
-    direction TB
+        direction TB
         id21(File store - Snowflake Stages\nOSM: MY_PARQUET_STAGE)--Copy Table\nExecution Snowflake-->
         id31(Snowflake Raw Tables as DBT sources\n POI: POI_RESOURCES\n OSM: RAW_OSM)--Pipeline run: DBT\n Execution: Snowflake  -->
         id22{{DBT Extractions \n POI: extract and validate data from json }}--Pipeline run: DBT\n Execution: Snowflake  -->
         id23{{DBT Transformations\n Enrichment of POI data with nearest OSM junction}}
+        id23-- Pipeline run: DBT\n Execution: Snowflake -->id24{{POI Modelling Nodes and Relations}}
+        id24--CSV Export-->id25{{Snowflake File Store}}
     end
 
     id2 -- Manual Ingest into Snowflake Staging\n via SnowSQL --> id21
     subgraph id12 [Backend]
-        id6(GraphDB: Neo4j) --> id7[API FastAPI]
-        id8(SearchDB: ElasticSearch) --> id7
+
+        id6(Neo4j Bulk Importer) --> id7[Neo4j DB]
     end
 
-    id14 -- Load POI Location Data\n Via Python Connector --> id6
-    id14 -- Load POI Text search Data\n Via Python Connector  --> id8
-    id6 -- Modeling --> id6
-    id8 -- Modeling --> id8
+    id25 -- Load POI Data\n Via SnowSQL Connector --> id6
+
     subgraph id13 [Serving]
         id9>FrontEnd: Dash / Leaflet]
     end
     id12 --> id13
 
-classDef myClass stroke:#ffa500,stroke-width:2px;
-class id1,id2,id3,id21,id22,id23,id6,id7,id31 myClass;
 ```
 
 ### POI Ontology
 
 ```mermaid
 flowchart LR
-    id1{{POI\n -Label-\n -Description-}} -- CLOSE_TO --> id2{{OSM Junction\n -osm_id-}}
-    id1 -- is_located_in --> id3{{Department\n-Name-}}
-    id1 -- has_address\n street_num --> id4{{Location\n-City-}}
-    id1 -- has_rating --> id5{{5 Star}}
-    id1 -- offers --> id6{{Features}}
-    id1 -- is_a --> id7{{Type}}
+    id11{{"`POI
+    - types as labels
+    - POI_KEY
+    - NAME
+    - DESCRIPTION
+    - ADDRESS
+    - LAT
+    - LON`"}}
 
+    id2{{OSM Junction\n- osm_id}}
+    id3{{Department\n- Name}}
+    id5{{REVIEW}}
+    id7{{Category}}
+
+
+    id11 -- "`CLOSE_TO
+    - DISTANCE
+    - DURATION`" --> id2
+    id11 -- IS_LOCATED_IN --> id3
+    id11 -- HAS_FIVE_SCALE_RATING\n VALUE --> id5
+    id11 -- IS_A --> id7
 ```

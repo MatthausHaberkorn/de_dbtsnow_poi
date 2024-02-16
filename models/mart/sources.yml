@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: RAW_TYPES_MAPPING
+    database: POIFRANCE
+    schema: RAW_TYPES_MAPPING
+    tables:
+      - name: types_resource
+        identifier: TYPES_RESOURCE
