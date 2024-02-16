@@ -135,42 +135,48 @@ copy into raw_osm
 
 ```mermaid
 flowchart TB
-    id1>datatourisme.fr]
-    id3>OpenstreetMaps]
-    subgraph  id10 [Manual Ingestion]
-        id2{{Data Loader\nOSM Data AS Parquet}}
+    id1{{datatourisme.fr}}
+    id2{{OpenstreetMaps}}
+    subgraph  id3 [Manual Ingestion]
+        id4{{OSM Data in PARQUET format}}
     end
 
-    id3-- Extract\n Download via osmnx -->id10
+    id2-- Extract\n Download via osmnx -->id3
 
-    subgraph id40 [Automated Ingestion]
-        id41{{DLT\nPOI'S AS JSON}}
+    subgraph id5 [DLT - Ingestion]
+        id6{{POI'S in JSON format}}
     end
-    id41-- Load via Snowflake Connector-->id31
-    id1 -- Extract as ZIP stream\nfrom API -->id40
-    subgraph id14 [ELT: Warehouse - Snowflake]
+    id6-- Load via Snowflake Connector-->id10
+    id1 -- Extract as ZIP stream\nfrom API -->id5
+    subgraph id8 [Snowflake & DBT - Warehouse]
         direction TB
-        id21(File store - Snowflake Stages\nOSM: MY_PARQUET_STAGE)--Copy Table\nExecution Snowflake-->
-        id31(Snowflake Raw Tables as DBT sources\n POI: POI_RESOURCES\n OSM: RAW_OSM)--Pipeline run: DBT\n Execution: Snowflake  -->
-        id22{{DBT Extractions \n POI: extract and validate data from json }}--Pipeline run: DBT\n Execution: Snowflake  -->
-        id23{{DBT Transformations\n Enrichment of POI data with nearest OSM junction}}
-        id23-- Pipeline run: DBT\n Execution: Snowflake -->id24{{POI Modelling Nodes and Relations}}
-        id24--CSV Export-->id25{{Snowflake File Store}}
+        id9(Snowflake Stages\nOSM: MY_PARQUET_STAGE)--Copy Table\nExecution Snowflake-->
+        id10(Snowflake Raw Tables\n POI: POI_RESOURCES\n OSM: RAW_OSM)--"`Extraction
+        Cleansing
+        Validation`"-->
+        id11{{DBT\n POI: parsed json data}}--Transformation\nEnrichment  -->
+        id12{{DBT\n Enrichment of POI data with nearest OSM junction}}
+        id12-- Pipeline run: DBT\n Execution: Snowflake -->id13{{POI Modelling Nodes and Relations}}
+        id13--CSV Export-->id14{{Snowflake File Store}}
     end
 
-    id2 -- Manual Ingest into Snowflake Staging\n via SnowSQL --> id21
-    subgraph id12 [Backend]
+    id4 -- Manual Ingest into Snowflake Staging\n via SnowSQL --> id9
+    subgraph id15 [Backend]
 
-        id6(Neo4j Bulk Importer) --> id7[Neo4j DB]
+        id16(Neo4j Bulk Importer) --> id17[Neo4j DB]
+
     end
 
-    id25 -- Load POI Data\n Via SnowSQL Connector --> id6
+    id14 -- Load POI Data\n Via SnowSQL Connector --> id15
 
-    subgraph id13 [Serving]
-        id9>FrontEnd: Dash / Leaflet]
+    subgraph id19 [Serving]
+
+        id18[Fast API]-->id20{{FrontEnd: Dash / Leaflet}}
     end
-    id12 --> id13
+    id15 --> id19
 
+ linkStyle 4,5,6 stroke:#ff3e6d,stroke-width:5px;
+ linkStyle 1,2 stroke:#f6c344,stroke-width:2px;
 ```
 
 ### POI Ontology
