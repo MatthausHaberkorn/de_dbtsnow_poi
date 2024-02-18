@@ -167,13 +167,42 @@ flowchart TB
 
     end
 
-    id14 -- Load POI Data\n Via SnowSQL Connector --> id15
+    id14 -- Load POI Data\n Via SnowSQL Connector --> id16
 
     subgraph id19 [Serving]
 
         id18[Fast API]-->id20{{FrontEnd: Dash / Leaflet}}
     end
     id15 --> id19
+
+    id2--Manual Extract-->id16
+
+
+    subgraph id100[Gaph Model]
+        id110{{"`POI
+        - types as labels
+        - POI_KEY
+        - NAME
+        - DESCRIPTION
+        - ADDRESS
+        - LAT
+        - LON`"}}
+
+        id200{{OSM Junction\n- osm_id}}
+        id300{{Department\n- Name}}
+        id500{{REVIEW}}
+        id700{{Category}}
+
+
+        id110 -- "`CLOSE_TO
+        - DISTANCE
+        - DURATION`" --> id200
+        id110 -- IS_LOCATED_IN --> id300
+        id110 -- HAS_FIVE_SCALE_RATING\n VALUE --> id500
+        id110 -- IS_A --> id700
+    end
+
+    id100---id13
 
  linkStyle 4,5,6 stroke:#ff3e6d,stroke-width:5px;
  linkStyle 1,2 stroke:#f6c344,stroke-width:2px;
@@ -183,6 +212,7 @@ flowchart TB
 
 ```mermaid
 flowchart LR
+    subgraph id100[Gaph Model]
     id11{{"`POI
     - types as labels
     - POI_KEY
@@ -204,4 +234,5 @@ flowchart LR
     id11 -- IS_LOCATED_IN --> id3
     id11 -- HAS_FIVE_SCALE_RATING\n VALUE --> id5
     id11 -- IS_A --> id7
+    end
 ```
