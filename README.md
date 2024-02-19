@@ -167,7 +167,7 @@ flowchart TB
 
     end
 
-    id14 -- Load POI Data\n Via SnowSQL Connector --> id16
+    id14 -- Load POI Data\n Via Make & Docker --> id16
 
     subgraph id19 [Serving]
 
