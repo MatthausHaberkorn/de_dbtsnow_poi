@@ -3,9 +3,6 @@ models:
   - name: stg_poi_cleansed
     description: "We make two cleansing steps here: 1. we remove all lat/longs which are not in france in europe. 2. We deduplicate based on poi_id and lat long with keeping the lates entry"
     columns:
-      - name: POI_KEY
-        description: "Surrogate key of the POI for the data warehouse"
-        data_type: NUMBER
       - name: POI_TYPES
         description: "Comma separated string list of POI categories"
         data_type: VARIANT
@@ -45,3 +42,6 @@ models:
       - name: POI_LAST_UPDATE
         description: "Timestamp of the last update of the POI on datagouv.fr"
         data_type: TIMESTAMP_TZ
+      - name: POI_KEY
+        description: "Surrogate key of the POI for the data warehouse"
+        data_type: NUMBER

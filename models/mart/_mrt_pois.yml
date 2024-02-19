@@ -2,9 +2,9 @@ version: 2
 models:
   - name: mrt_pois
     columns:
-      - name: POI_KEY
-        description: 'Surrogate key of the POI for the data warehouse'
-        data_type: VARCHAR
+      - name: POI_TYPES
+        description: Comma separated string list of POI categories
+        data_type: ARRAY
       - name: POI_ID
         description: 'Identifier of the POI'
         data_type: VARCHAR
@@ -35,9 +35,15 @@ models:
       - name: POI_RATING
         description: 'User sentiment in 5 star scale of the POI as float number'
         data_type: FLOAT
+      - name: POI_FEATURES
+        description: Commaseparated string list of POI capabilities
+        data_type: ARRAY
       - name: POI_LAST_UPDATE
         description: 'Timestamp of the last update of the POI on datagouv.fr'
         data_type: TIMESTAMP_TZ
+      - name: POI_KEY
+        description: 'Surrogate key of the POI for the data warehouse'
+        data_type: VARCHAR
       - name: OSM_ID
         description: 'Identifier of the OSM element which is in fact a junction'
         data_type: NUMBER

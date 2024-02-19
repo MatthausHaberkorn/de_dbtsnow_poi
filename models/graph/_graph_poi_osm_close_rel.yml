@@ -1,0 +1,19 @@
+version: 2
+models:
+  - name: graph_poi_osm_close_rel
+    columns:
+      - name: :START_ID
+        description: "POI node id. Start of the relationship"
+        data_type: VARCHAR
+      - name: :END_ID
+        description: "OSM node id. End of the relationship"
+        data_type: NUMBER
+      - name: :TYPE
+        description: "Relationship type. Here it is CLOSE_TO"
+        data_type: VARCHAR
+      - name: DISTANCE_M:FLOAT
+        description: "The distance of the POI to the OSM node in meters"
+        data_type: FLOAT
+      - name: DURATION_MIN:FLOAT
+        description: "The duration of the POI to the OSM node in minutes if we travel by 4km/h"
+        data_type: FLOAT

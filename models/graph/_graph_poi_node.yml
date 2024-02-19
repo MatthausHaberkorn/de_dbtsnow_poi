@@ -1,0 +1,28 @@
+version: 2
+models:
+  - name: graph_poi_node
+    columns:
+      - name: POI_KEY:ID
+        description: "Identifier of the POI. Column name is formated for the neo4j impoprter."
+        data_type: VARCHAR
+      - name: NAME
+        description: "Point of interest name"
+        data_type: VARCHAR
+      - name: DESCRIPTION
+        description: "Point of interest description"
+        data_type: VARCHAR
+      - name: ADDRESS
+        description: "Point of interest address string with street and number"
+        data_type: VARCHAR
+      - name: LAT
+        description: "Point of interest latitude"
+        data_type: FLOAT
+      - name: LONG
+        description: "Popint of interest longitude"
+        data_type: FLOAT
+      - name: DEPARTMENT
+        description: "French department name"
+        data_type: VARCHAR
+      - name: :LABEL
+        description: "Pipe separeted list of labels for the node consisting of the node types and the department for better filtering"
+        data_type: VARCHAR

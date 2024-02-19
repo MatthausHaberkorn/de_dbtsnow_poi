@@ -6,6 +6,6 @@ models:
       - name: POI_KEY
         description: Surrogate key of the POI for the data warehouse
         data_type: VARCHAR
-      - name: POI_TYPE_KEY
-        description: "Surrogate key for the POI_Type table to uniquely identify the feature in the warehouse"
+      - name: POI_TYPE
+        description: ''
         data_type: VARCHAR

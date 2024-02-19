@@ -7,3 +7,16 @@ sources:
     tables:
       - name: types_resource
         identifier: TYPES_RESOURCE
+        columns:
+          - name: DATA_GOV_TYPE
+            description: ''
+            data_type: VARCHAR
+          - name: NEW_TYPE
+            description: ''
+            data_type: VARCHAR
+          - name: _DLT_LOAD_ID
+            description: ''
+            data_type: VARCHAR
+          - name: _DLT_ID
+            description: ''
+            data_type: VARCHAR

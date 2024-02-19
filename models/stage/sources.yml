@@ -38,3 +38,133 @@ sources:
     tables:
       - name: poi_resource
         identifier: POIS_RESOURCE
+        columns:
+          - name: AID
+            description: ''
+            data_type: VARCHAR
+          - name: DC_IDENTIFIER
+            description: ''
+            data_type: VARCHAR
+          - name: ATYPE
+            description: ''
+            data_type: VARIANT
+          - name: RDFS_COMMENT
+            description: ''
+            data_type: VARIANT
+          - name: RDFS_LABEL
+            description: ''
+            data_type: VARIANT
+          - name: AVAILABLE_LANGUAGE
+            description: ''
+            data_type: VARIANT
+          - name: HAS_ARCHITECTURAL_STYLE
+            description: ''
+            data_type: VARIANT
+          - name: HAS_AUDIENCE
+            description: ''
+            data_type: VARIANT
+          - name: HAS_BEEN_CREATED_BY
+            description: ''
+            data_type: VARIANT
+          - name: HAS_BEEN_PUBLISHED_BY
+            description: ''
+            data_type: VARIANT
+          - name: HAS_CLIENT_TARGET
+            description: ''
+            data_type: VARIANT
+          - name: HAS_CONTACT
+            description: ''
+            data_type: VARIANT
+          - name: HAS_DESCRIPTION
+            description: ''
+            data_type: VARIANT
+          - name: HAS_MAIN_REPRESENTATION
+            description: ''
+            data_type: VARIANT
+          - name: HAS_REPRESENTATION
+            description: ''
+            data_type: VARIANT
+          - name: HAS_THEME
+            description: ''
+            data_type: VARIANT
+          - name: HAS_TRANSLATED_PROPERTY
+            description: ''
+            data_type: VARIANT
+          - name: IS_LOCATED_AT
+            description: ''
+            data_type: VARIANT
+          - name: LAST_UPDATE
+            description: ''
+            data_type: VARCHAR
+          - name: LAST_UPDATE_DATATOURISME
+            description: ''
+            data_type: TIMESTAMP_TZ
+          - name: REDUCED_MOBILITY_ACCESS
+            description: ''
+            data_type: BOOLEAN
+          - name: _DLT_LOAD_ID
+            description: ''
+            data_type: VARCHAR
+          - name: _DLT_ID
+            description: ''
+            data_type: VARCHAR
+          - name: OWL_SAME_AS
+            description: ''
+            data_type: VARIANT
+          - name: OFFERS
+            description: ''
+            data_type: VARIANT
+          - name: HAS_EXTERNAL_REFERENCE
+            description: ''
+            data_type: VARIANT
+          - name: HAS_FEATURE
+            description: ''
+            data_type: VARIANT
+          - name: HAS_REVIEW
+            description: ''
+            data_type: VARIANT
+          - name: COVID19_SPECIAL_MEASURES
+            description: ''
+            data_type: VARIANT
+          - name: IS_OWNED_BY
+            description: ''
+            data_type: VARIANT
+          - name: ALLOWED_PERSONS
+            description: ''
+            data_type: NUMBER
+          - name: CREATION_DATE
+            description: ''
+            data_type: VARCHAR
+          - name: HAS_NEIGHBORHOOD
+            description: ''
+            data_type: VARIANT
+          - name: HAS_BOOKING_CONTACT
+            description: ''
+            data_type: VARIANT
+          - name: PROVIDES_FOOD_PRODUCT
+            description: ''
+            data_type: VARIANT
+          - name: SCHEMA_END_DATE
+            description: ''
+            data_type: VARIANT
+          - name: SCHEMA_START_DATE
+            description: ''
+            data_type: VARIANT
+          - name: TAKES_PLACE_AT
+            description: ''
+            data_type: VARIANT
+          - name: HAS_ADMINISTRATIVE_CONTACT
+            description: ''
+            data_type: VARIANT
+          - name: HAS_MANAGEMENT_CONTACT
+            description: ''
+            data_type: VARIANT
+          - name: GUIDED
+            description: ''
+            data_type: BOOLEAN
+          - name: HAS_GEOGRAPHIC_REACH
+            description: ''
+            data_type: VARIANT
+          - name: HAS_COMMUNICATION_CONTACT
+            description: ''
+            data_type: VARIANT

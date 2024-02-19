@@ -1,0 +1,10 @@
+version: 2
+models:
+  - name: graph_poi_cat_node
+    columns:
+      - name: TYPE:ID
+        description: ''
+        data_type: VARCHAR
+      - name: :LABEL
+        description: ''
+        data_type: VARCHAR
