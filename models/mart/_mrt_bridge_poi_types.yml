@@ -7,5 +7,5 @@ models:
         description: Surrogate key of the POI for the data warehouse
         data_type: VARCHAR
       - name: POI_TYPE
-        description: ''
+        description: 'Cathegory of the POI, e.g. "restaurant", "hotel", "museum" etc.'
         data_type: VARCHAR

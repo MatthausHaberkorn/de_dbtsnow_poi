@@ -1,16 +1,17 @@
 version: 2
 models:
   - name: graph_poi_rating_node
+    description: ""
     columns:
       - name: :START_ID
-        description: ''
+        description: ""
         data_type: VARCHAR
       - name: :END_ID
-        description: ''
+        description: ""
         data_type: VARCHAR
       - name: :TYPE
-        description: ''
+        description: ""
         data_type: VARCHAR
       - name: VALUE
-        description: ''
+        description: ""
         data_type: FLOAT
