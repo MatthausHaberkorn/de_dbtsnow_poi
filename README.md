@@ -156,7 +156,7 @@ flowchart TB
         Validation`"-->
         id11{{DBT\n POI: parsed json data}}--Transformation\nEnrichment  -->
         id12{{DBT\n Enrichment of POI data with nearest OSM junction}}
-        id12-- Pipeline run: DBT\n Execution: Snowflake -->id13{{POI Modelling Nodes and Relations}}
+        id12-- Transformation -->id13{{POI Modelling Nodes and Relations}}
         id13--CSV Export-->id14{{Snowflake File Store}}
     end
 
